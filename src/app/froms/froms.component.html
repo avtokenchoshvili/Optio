@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="containter2" >
+
+<form  [formGroup]="form" class="containterrr">
+<h1>sad</h1>
+
+
+  <div>
+    <mat-form-field class="example-full-width" appearance="outline" style="width:23vw">
+      <mat-label>Name</mat-label>
+      <input name="name"   matInput  formControlName="Name">
+    </mat-form-field>
+
+</div>
+<div>
+  <mat-form-field class="example-full-width" appearance="outline" style="width:23vw">
+    <mat-label>LastName</mat-label>
+    <input name="LastName"   matInput  formControlName="lastName">
+  </mat-form-field>
+
+</div>
+
+
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Email</mat-label>
+
+    <input name="Email"  matInput    formControlName="email" >
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline">
+    <mat-label>status</mat-label>
+    <mat-select  >
+      <mat-option value="active">Active</mat-option>
+      <mat-option value="inactive">Inactive</mat-option>
+
+    </mat-select>
+  </mat-form-field>
+
+<div>
+  <mat-form-field  style="width:23vw" appearance="outline">
+    <mat-label> Roles</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Enter fruits">
+      <mat-chip-row *ngFor="let fruit of fruits"
+                    (removed)="remove(fruit)"
+                    [editable]="true"
+                    (edited)="edit(fruit, $event)"
+                    [aria-description]="'press enter to edit ' + fruit.name">
+        {{fruit.name}}
+        <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      <input placeholder="Add Role"
+             [matChipInputFor]="chipGrid"
+
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)"/>
+
+    </mat-chip-grid>
+  </mat-form-field>
+</div>
+
+
+
+</form>
+<button (click)="submit()">  save  </button>
+</div>
+</div>

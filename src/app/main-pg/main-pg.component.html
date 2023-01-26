@@ -1,0 +1,54 @@
+<main>
+
+  <mat-drawer-container fullscreen autosize class="example-container"  >
+
+
+
+
+<header>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Search users</mat-label>
+    <input matInput />
+    <mat-icon matPrefix>search</mat-icon>
+  </mat-form-field>
+  <div class="example-sidenav-content">
+    <button type="button" mat-button (click)="open()">
+     <span>+</span>  Add
+    </button>
+  </div>
+
+</header>
+
+
+
+
+  <mat-drawer    #drawer  mode="side" position="end">
+    <mat-icon  [ngStyle]="{'color':'brown'}" (click)="close()">clear</mat-icon>
+
+    <app-froms ></app-froms>
+    <hr>
+    <div class="BtnDiv">
+      <button (click)="close()">cancel</button>
+
+    </div>
+
+    </mat-drawer>
+
+
+
+
+
+
+
+
+
+
+
+  </mat-drawer-container>
+
+
+
+
+
+</main>

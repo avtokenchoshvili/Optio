@@ -1,0 +1,37 @@
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptorInterceptor } from './token-interceptor.interceptor';
+import { MaterialModuleModule } from './material-module/material-module.module';
+import { MainPgComponent } from './main-pg/main-pg.component';
+import { FromsComponent } from './froms/froms.component';
+import { ReactiveFormsModule } from '@angular/forms';
+@NgModule({
+  declarations: [
+    AppComponent,
+    MainPgComponent,
+    FromsComponent,
+
+  ],
+  imports: [
+    HttpClientModule,
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModuleModule,
+    ReactiveFormsModule
+
+  ],
+  providers: [ {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorInterceptor,
+    multi: true
+  }],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
