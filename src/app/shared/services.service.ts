@@ -32,4 +32,11 @@ public getRoles():Observable<Entities[]> {
   )
 }
 
+public saveUser(userData:User):Observable<{data:User}>{
+  return this._http.post<{data:User}>('https://development.api.optio.ai/api/v2/admin/users/save' ,userData)
+}
+
+
+
+
 }

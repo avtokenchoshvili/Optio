@@ -7,6 +7,7 @@ import { ServicesService } from '../shared/services.service';
 import { Role } from '../interfaces/role';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Entities,  } from '../interfaces/entities';
+import { User } from '../interfaces/user';
 
 
 
@@ -107,7 +108,8 @@ console.log(this.data$)
 Name:['',([Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-Z]+( [a-zA-Z]+)*$/)])],
 lastName:['',[Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-Z]+( [a-zA-Z]+)*$/)]],
 email:['',   [ Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
-roles:['']
+roles:[''],
+userStatus:['']
     });
 
   }
@@ -115,8 +117,22 @@ roles:['']
 
 
 submit(){
-  console.log(this.form.value)
+  const lockedStatus = this.form.value!.userStatus! === 'active';
+  let userData = {
 
+    firstName: this.form.value.Name,
+      lastName: this.form.value.lastName,
+      email: this.form.value.email,
+      // userStatus:this.form.value.userStatus,
+      locked:lockedStatus,
+      roles: this.selecedEntities
+
+  }
+console.log(userData)
+
+this._rollServise.saveUser(userData).subscribe((res:any )=>{
+console.log(res)
+})
 }
 
 

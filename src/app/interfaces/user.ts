@@ -6,7 +6,7 @@ export interface User {
   email: string,
   firstName: string,
   lastName: string,
-  roles: Role[],
-  locked: boolean
+  roles: string[],
+  locked: boolean;
 }
 
