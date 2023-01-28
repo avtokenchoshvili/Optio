@@ -11,11 +11,13 @@ import { MaterialModuleModule } from './material-module/material-module.module';
 import { MainPgComponent } from './main-pg/main-pg.component';
 import { FromsComponent } from './froms/froms.component';
 import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
     MainPgComponent,
     FromsComponent,
+
 
   ],
   imports: [

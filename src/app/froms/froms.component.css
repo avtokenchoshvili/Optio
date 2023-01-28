@@ -2,3 +2,9 @@
 mat-label{
   color: black;
 }
+.mat-autocomplete-panel {
+  overflow: hidden;
+}
+.mat-select-panel {
+  overflow: hidden;
+}

@@ -22,14 +22,21 @@
 
 
 
-  <mat-form-field class="example-full-width" appearance="outline">
+
+
+
+
+<div  >
+
+
+  <mat-form-field  style="margin-right:9px;  width:11vw;"    class="example-full-width" appearance="outline">
     <mat-label>Email</mat-label>
 
     <input name="Email"  matInput    formControlName="email" >
   </mat-form-field>
 
 
-  <mat-form-field appearance="outline">
+  <mat-form-field style="width:11vw ;margin-left:9px" appearance="outline">
     <mat-label>status</mat-label>
     <mat-select  >
       <mat-option value="active">Active</mat-option>
@@ -38,29 +45,46 @@
     </mat-select>
   </mat-form-field>
 
+</div>
+
+
 <div>
-  <mat-form-field  style="width:23vw" appearance="outline">
-    <mat-label> Roles</mat-label>
-    <mat-chip-grid #chipGrid aria-label="Enter fruits">
-      <mat-chip-row *ngFor="let fruit of fruits"
-                    (removed)="remove(fruit)"
-                    [editable]="true"
-                    (edited)="edit(fruit, $event)"
-                    [aria-description]="'press enter to edit ' + fruit.name">
-        {{fruit.name}}
-        <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
+  <mat-form-field appearance="outline" style="width:23vw">
+
+    <mat-label>Add Role</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Fruit selection">
+
+
+      <mat-chip-row *ngFor="let entity of selecedEntities" (removed)="remove(entity)">
+        {{entity}}
+        <button matChipRemove [attr.aria-label]="'remove ' + entity">
           <mat-icon>cancel</mat-icon>
         </button>
-      </mat-chip-row>
-      <input placeholder="Add Role"
-             [matChipInputFor]="chipGrid"
 
-             [matChipInputAddOnBlur]="addOnBlur"
-             (matChipInputTokenEnd)="add($event)"/>
+      </mat-chip-row>
+
+    <input matInput placeholder="Add Role" #roleInput [formControl]="roleControl"
+      [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)"/>
 
     </mat-chip-grid>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let data of data$ | async" [value]="data.name">
+        {{data.name}}
+      </mat-option>
+    </mat-autocomplete>
+
+
+
   </mat-form-field>
+
+
+
 </div>
+
+
+
 
 
 

@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
-import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { MatChipEditedEvent, MatChipInputEvent, MatChipListbox, } from '@angular/material/chips';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { map, Observable, startWith, tap } from 'rxjs';
 import { ServicesService } from '../shared/services.service';
 import { Role } from '../interfaces/role';
-export interface Fruit {
-  name: string;
-}
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Entities,  } from '../interfaces/entities';
+
+
+
 @Component({
   selector: 'app-froms',
   templateUrl: './froms.component.html',
@@ -16,21 +18,90 @@ export interface Fruit {
 
 
 export class FromsComponent {
+  public selectable = true;
+  public removable = true;
+  public addOnBlur = true;
   form!: FormGroup;
-data!:Role;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  roleControl = new FormControl('');
+  selecedEntities: string[] = [];
+  entities!: Observable<Role[]>;
+  allEntities:any[] = [];
+  data$!: Observable<Entities[]>;
 
-  addOnBlur = true;
-
+  @ViewChild('roleInput') roleInput!: ElementRef<HTMLInputElement>;
 
   constructor (private _fb: FormBuilder,
-    private _rollServise:ServicesService) {}
+    private _rollServise:ServicesService,
+    ) {
+      this.entities = this.roleControl.valueChanges.pipe(
+        startWith(null),
+        map((query: string | null) => {
+          console.log(query);
+          return (query ? this._filter(query) : this.allEntities.slice())
+        }
+        ),
+      );
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    add(event: MatChipInputEvent): void {
+      const value = (event.value || '').trim();
+
+      // Add our fruit
+      if (value) {
+        this.selecedEntities.push(value);
+      }
+
+      // Clear the input value
+      event.chipInput!.clear();
+
+      this.roleControl.setValue(null);
+    }
+
+
+
+
+    remove(fruit: string): void {
+      const index = this.selecedEntities.indexOf(fruit);
+
+      if (index >= 0) {
+        this.selecedEntities.splice(index, 1);
+      }
+    }
+    private _filter(value: string): Entities[] {
+      const filterValue = value.toLowerCase();
+
+      return this.allEntities.filter(el => el.name.toLowerCase().includes(filterValue));
+    }
+    selected(event: MatAutocompleteSelectedEvent): void {
+      console.log(event.option.viewValue);
+    if (!this.selecedEntities.includes(event.option.viewValue)) {
+      this.selecedEntities.push(event.option.viewValue);
+      this.roleInput.nativeElement.value = '';
+      this.roleControl.setValue(null);
+    }
+    }
+
+
 
 
   ngOnInit(): void {
- this._rollServise.getRoles().subscribe(res =>{
-  console.log(res)
-  this.data = res;
- });
+    this.data$ = this._rollServise.getRoles().pipe(
+      tap(data => this.allEntities = data)
+
+    )
+console.log(this.data$)
 
     this.form = this._fb.group({
 Name:['',([Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-Z]+( [a-zA-Z]+)*$/)])],
@@ -40,45 +111,13 @@ roles:['']
     });
 
   }
+
+
+
 submit(){
   console.log(this.form.value)
+
 }
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruits: Fruit[] = [{name: 'Lemon'}, {name: 'Lime'}, {name: 'Apple'}];
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
 
-    // Add our fruit
-    if (value) {
-      this.fruits.push({name: value});
-    }
-
-    // Clear the input value
-    event.chipInput!.clear();
-  }
-
-  remove(fruit: Fruit): void {
-    const index = this.fruits.indexOf(fruit);
-
-    if (index >= 0) {
-      this.fruits.splice(index, 1);
-    }
-  }
-
-  edit(fruit: Fruit, event: MatChipEditedEvent) {
-    const value = event.value.trim();
-
-    // Remove fruit if it no longer has a name
-    if (!value) {
-      this.remove(fruit);
-      return;
-    }
-
-    // Edit existing fruit
-    const index = this.fruits.indexOf(fruit);
-    if (index >= 0) {
-      this.fruits[index].name = value;
-    }
-  }
 }

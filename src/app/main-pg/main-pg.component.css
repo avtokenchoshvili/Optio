@@ -49,6 +49,6 @@
 
   .mat-drawer{
     width: 550px;
-    height: 550px;
+    height: auto;
     padding: 30px 50px ;
   }

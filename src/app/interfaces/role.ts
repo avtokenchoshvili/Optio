@@ -1,10 +1,10 @@
+import { Entities  } from '../interfaces/entities';
+
 export interface Role {
 
+
     data: {
-      entities: {
-        code: string,
-        name: string
-      }[]
+      entities:Entities[]
     },
     success: boolean
 

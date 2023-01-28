@@ -21,10 +21,36 @@ import {MatChipsModule} from '@angular/material/chips';
 import { FlexModule } from '@angular/flex-layout';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { GridModule } from '@angular/flex-layout';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {CdkTableModule} from '@angular/cdk/table';
+
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatTreeModule} from '@angular/material/tree';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSortModule} from '@angular/material/sort';
+
+
+
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    MatSelectModule,
+    MatSortModule,
+    MatSnackBarModule,
+    MatDividerModule,
+    MatCheckboxModule,
+    MatButtonToggleModule,
+    MatBottomSheetModule,
+    MatBadgeModule,
+    MatStepperModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatTableModule,
@@ -42,9 +68,23 @@ import { GridModule } from '@angular/flex-layout';
     FlexLayoutModule,
     FlexModule,
     GridModule,
+    MatAutocompleteModule,
+    CdkTableModule,
+    MatTooltipModule,
+    MatTreeModule,
+    MatTabsModule,
   ],
   exports: [
     MatPaginatorModule,
+    MatSelectModule,
+    MatSortModule,
+    MatSnackBarModule,
+    MatDividerModule,
+    MatCheckboxModule,
+    MatButtonToggleModule,
+    MatBottomSheetModule,
+    MatBadgeModule,
+    MatStepperModule,
     MatProgressBarModule,
     MatTableModule,
     MatButtonModule,
@@ -60,8 +100,12 @@ import { GridModule } from '@angular/flex-layout';
     MatChipsModule,
     FlexLayoutModule,
     FlexModule,
-    GridModule
-
+    GridModule,
+    MatAutocompleteModule,
+    CdkTableModule,
+    MatTooltipModule,
+    MatTreeModule,
+    MatTabsModule,
 
   ]
 })
