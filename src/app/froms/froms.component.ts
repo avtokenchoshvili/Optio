@@ -26,8 +26,8 @@ export class FromsComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   roleControl = new FormControl('');
   selecedEntities: string[] = [];
-  entities!: Observable<Role[]>;
-  allEntities:any[] = [];
+  entities!: Observable<Entities[]>;
+  allEntities:Entities[] = [];
   data$!: Observable<Entities[]>;
 
   @ViewChild('roleInput') roleInput!: ElementRef<HTMLInputElement>;
@@ -123,7 +123,7 @@ submit(){
     firstName: this.form.value.Name,
       lastName: this.form.value.lastName,
       email: this.form.value.email,
-      // userStatus:this.form.value.userStatus,
+
       locked:lockedStatus,
       roles: this.selecedEntities
 

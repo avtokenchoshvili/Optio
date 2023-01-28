@@ -26,7 +26,7 @@ public getRoles():Observable<Entities[]> {
       "code", "name"
     ]
   }
-  return this._http.post<Role[]>("https://development.api.optio.ai/api/v2/reference-data/find",data )
+  return this._http.post<Entities[]>("https://development.api.optio.ai/api/v2/reference-data/find",data )
   .pipe(map((data:any)=> data ['data']['entities'])
 
   )

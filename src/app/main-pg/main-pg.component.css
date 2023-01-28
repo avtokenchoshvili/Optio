@@ -52,3 +52,36 @@
     height: auto;
     padding: 30px 50px ;
   }
+
+  table {
+    width: 100%;
+
+  }
+.mat-elevation-z8{
+  height: 200px;
+}
+  .mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  td, th {
+    width: 25%;
+  }
+  .table-container{
+    height: 800px;
+  }
+  .mat-mdc-form-field-has-icon-prefix .mat-mdc-text-field-wrapper {
+    border-radius: 40px;
+    height: 50px;
+    align-items: center;
+    text-align: center;
+    border: 0.5px solid black ;
+
+  }
+ header{
+  display: flex;
+    justify-content: end;
+    align-items: center;
+    text-align: center;
+ }
