@@ -8,9 +8,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorInterceptor } from './token-interceptor.interceptor';
 import { MaterialModuleModule } from './material-module/material-module.module';
-import { MainPgComponent } from './main-pg/main-pg.component';
-import { FromsComponent } from './froms/froms.component';
+import { AddUserFromComponent } from './components/addUserForm/addUserFrom.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {UsersTableComponent} from "./components/usersTable/usersTable.component";
 
 @NgModule({
   declarations: [
