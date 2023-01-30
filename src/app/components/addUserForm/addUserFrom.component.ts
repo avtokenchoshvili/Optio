@@ -54,7 +54,7 @@ export class AddUserFromComponent implements OnInit {
 
   @ViewChild('roleInput') roleInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private _fb: FormBuilder, private _rollServise: HttpService) {
+  constructor(private _fb: FormBuilder, private _htpServise: HttpService) {
     this.entities = this.roleControl.valueChanges.pipe(
       startWith(null),
       map((query: string | null) => {
@@ -102,7 +102,7 @@ export class AddUserFromComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.data$ = this._rollServise
+    this.data$ = this._htpServise
       .getRoles()
       .pipe(tap((data) => (this.allEntities = data)));
     console.log(this.data$);
@@ -140,7 +140,7 @@ export class AddUserFromComponent implements OnInit {
     const lockedStatus = this.form.value!.userStatus! === 'active';
     const {email, firstName, lastName } = this.form.value;
 
-    this._rollServise.addUser({email, firstName, lastName, roles: this.selecedEntities, locked: lockedStatus })
+    this._htpServise.addUser({email, firstName, lastName, roles: this.selecedEntities, locked: lockedStatus })
       .subscribe(res =>{
         console.log(res );
       });

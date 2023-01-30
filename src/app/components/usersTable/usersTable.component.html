@@ -29,7 +29,7 @@
 
   <mat-form-field>
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    <input  [formControl]="searchControl" matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
   </mat-form-field>
 
   <div class="mat-elevation-z8">
@@ -97,7 +97,11 @@
     </table>
 
     <mat-paginator
-[pageSize]="2"
+      [length]="totalCount"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      (page)="getFeelList($event)"
+      showFirstLastButtons
 
       [pageSizeOptions]="[2,5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
   </div>
