@@ -141,7 +141,9 @@ export class AddUserFromComponent implements OnInit {
     const {email, firstName, lastName } = this.form.value;
 
     this._rollServise.addUser({email, firstName, lastName, roles: this.selecedEntities, locked: lockedStatus })
-      .subscribe();
+      .subscribe(res =>{
+        console.log(res );
+      });
 
 
   }
