@@ -15,10 +15,8 @@ import {UsersTableComponent} from "./components/usersTable/usersTable.component"
 @NgModule({
   declarations: [
     AppComponent,
-    MainPgComponent,
-    FromsComponent,
-
-
+    AddUserFromComponent,
+    UsersTableComponent
   ],
   imports: [
     HttpClientModule,
@@ -27,7 +25,6 @@ import {UsersTableComponent} from "./components/usersTable/usersTable.component"
     BrowserAnimationsModule,
     MaterialModuleModule,
     ReactiveFormsModule
-
   ],
   providers: [ {
     provide: HTTP_INTERCEPTORS,

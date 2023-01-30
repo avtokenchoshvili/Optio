@@ -1,1 +1,32 @@
-<app-main-pg></app-main-pg>
+<main>
+  <mat-drawer-container fullscreen  >
+  <header>
+    <div class="example-sidenav-content">
+      <button type="button" mat-button (click)="drawer.open()">
+        <span>+</span>  Add
+      </button>
+    </div>
+  </header>
+
+  <mat-drawer #drawer  mode="side" position="end">
+    <mat-icon  [ngStyle]="{'color':'brown'}" (click)="drawer.close()">clear</mat-icon>
+
+    <app-addUserForm ></app-addUserForm>
+    <hr>
+    <div class="BtnDiv">
+      <button (click)="drawer.close()">cancel</button>
+
+    </div>
+  </mat-drawer>
+
+  <div class="table-container" >
+    <div class="mat-elevation-z8">
+      <app-usersTable [data]="users$ | async"></app-usersTable>
+    </div>
+  </div>
+
+  </mat-drawer-container>
+
+</main>
+
+
