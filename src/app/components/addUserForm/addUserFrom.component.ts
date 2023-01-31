@@ -3,7 +3,7 @@ import {
   ElementRef,
   EventEmitter, OnInit,
   Output,
-  ViewChild,
+  ViewChild, ViewContainerRef,
 } from '@angular/core';
 import {
   MatChipEditedEvent,
@@ -19,12 +19,13 @@ import {
 } from '@angular/forms';
 import { map, Observable, startWith, tap } from 'rxjs';
 import { HttpService } from '../../services/http.service';
-import { Role } from '../../interfaces/role';
+
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Entities } from '../../interfaces/entities';
 import { User } from '../../interfaces/user';
 
 import { Subject } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core'
 
 @Component({
   selector: 'app-addUserForm',
@@ -54,7 +55,7 @@ export class AddUserFromComponent implements OnInit {
 
   @ViewChild('roleInput') roleInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private _fb: FormBuilder, private _htpServise: HttpService) {
+  constructor(private _fb: FormBuilder, private _htpServise: HttpService,) {
     this.entities = this.roleControl.valueChanges.pipe(
       startWith(null),
       map((query: string | null) => {
@@ -63,6 +64,7 @@ export class AddUserFromComponent implements OnInit {
       })
     );
   }
+  // @ViewChild('edit')
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();

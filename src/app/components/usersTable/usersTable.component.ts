@@ -1,21 +1,23 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} from "@angular/core";
+import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild} from "@angular/core";
 import {User} from "../../interfaces/user";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort,Sort} from "@angular/material/sort";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {HttpService} from "../../services/http.service";
 import {GetUser} from "../../interfaces/getUser";
-import {FormControl} from "@angular/forms";
+import {FormControl, FormGroup, FormGroupDirective} from "@angular/forms";
 import {debounceTime} from "rxjs";
 import { MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationDialogComponent} from "../../confirmation-dialog/confirmation-dialog.component";
+import {AddUserFromComponent} from "../addUserForm/addUserFrom.component";
 
 
 @Component({
   selector: 'app-usersTable',
   templateUrl: './usersTable.component.html',
   styleUrls: ['./usersTable.component.css'],
+  providers: [FormGroupDirective]
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -29,8 +31,10 @@ export class UsersTableComponent implements AfterViewInit {
   public includes :string[]  = [];
 
   public excludes :string[]  = [];
+  form!: FormGroup;
 constructor(public _htpServise:HttpService,
-            private _matDialog: MatDialog
+            private _matDialog: MatDialog,
+
           ) {
   //
   this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe((text: string) => {
@@ -68,6 +72,8 @@ constructor(public _htpServise:HttpService,
 
   }
 
+  @ViewChild(AddUserFromComponent) addUserFromComponent!:AddUserFromComponent;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -78,6 +84,8 @@ constructor(public _htpServise:HttpService,
   ngAfterViewInit(): void {
     this.usersDataSource.paginator = this.paginator;
     this.usersDataSource.sort = this.sort;
+    // this.form.addControl(this.addUserFromComponent.form);
+
 
   }
   ngOnInit(){
@@ -85,7 +93,11 @@ constructor(public _htpServise:HttpService,
     this.usersDataSource.sort = this.sort;
 
 
+
 }
+
+@Output() notifyParent: EventEmitter<any> = new EventEmitter();
+
 
 
   applyFilter(event: Event) {

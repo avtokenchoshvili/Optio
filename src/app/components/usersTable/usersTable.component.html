@@ -44,7 +44,7 @@
       <!-- Progress Column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> email </th>
-        <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+        <td mat-cell  #edit *matCellDef="let row"  > {{row.email}} </td>
       </ng-container>
 
       <!-- Name Column -->
