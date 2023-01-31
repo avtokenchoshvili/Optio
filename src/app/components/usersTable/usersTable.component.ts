@@ -6,8 +6,8 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {HttpService} from "../../services/http.service";
 import {GetUser} from "../../interfaces/getUser";
 import {FormControl} from "@angular/forms";
-
-
+import {debounceTime} from "rxjs";
+import { MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -19,11 +19,40 @@ import {FormControl} from "@angular/forms";
 
 export class UsersTableComponent implements AfterViewInit {
 
-constructor(public _htpServise:HttpService) {
+  public totalCount: number = 0;
+  public pageSize: number = 10;
+  public pageIndex: number = 0;
+  public sortBy: string = 'email';
+  public sortDirection: string = 'asc';
+  public includes :string[]  = [];
+
+  public excludes :string[]  = [];
+constructor(public _htpServise:HttpService,
+            private _snackBar: MatSnackBar) {
+
+  this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe((text: string) => {
+    this._htpServise.findUser({search: this.searchControl.value, sortBy: this.sortBy,
+      sortDirection: this.sortDirection, pageIndex: this.pageIndex, pageSize: this.pageSize  ,includes:this.includes, excludes:this.excludes}).subscribe({
+      next: ({ data }) => {
+        this.usersDataSource.data = data.entities;
+        this.totalCount = data.total
+        this.usersDataSource.paginator = this.paginator;
+        this.usersDataSource.sort = this.sort;
+      },
+      error: (error:any) => (
+        this.openSnackBar("Could not load user data !", "Okey")
+      )
+    })
+  })
+
+
 }
+  public openSnackBar(message: string, Delete: string) {
+    this._snackBar.open(message, Delete);
+  }
 
   public  columnNames: string[] =
-    [ 'email', 'firstName', 'lastName', 'Role' , 'Status'  ,'Delete' ,'Edit'];
+    [ 'email', 'firstName', 'lastName', 'Role' , 'Status'  ,'Delete' ,];
   public usersDataSource!: MatTableDataSource<User>;
 
 
@@ -47,9 +76,10 @@ constructor(public _htpServise:HttpService) {
     this.usersDataSource.paginator = this.paginator;
     this.usersDataSource.sort = this.sort;
 
-    this.counts()
 
 }
+
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.usersDataSource.filter = filterValue.trim().toLowerCase();
@@ -58,16 +88,9 @@ constructor(public _htpServise:HttpService) {
       this.usersDataSource.paginator.firstPage();
     }
   }
-  public totalCount: number = 0;
-  public pageSize: number = 10;
-  public pageIndex: number = 0;
-  public sortBy: string = 'email';
-  public sortDirection: string = 'asc';
-   public includes :string[]  = [];
 
-   public excludes :string[]  = [];
 
-   public search !:string
+
 
 searchControl  = new FormControl();
 getFeelList(event:PageEvent){
@@ -76,17 +99,24 @@ this.pageSize  = event.pageSize;
 this._htpServise.findUser({search: this.searchControl.value, sortBy: this.sortBy,
   sortDirection: this.sortDirection, pageIndex: this.pageIndex, pageSize: this.pageSize  ,includes:this.includes, excludes:this.excludes}).subscribe(
   (value)=>{
-    console.log(value.data.entities)
+    console.log(value.data)
     this.usersDataSource = new MatTableDataSource<User>(value.data.entities);
     this.totalCount = value.data.total;
     this.usersDataSource.paginator
   }
 )
 }
-counts(){
-     this._htpServise.getRoles().subscribe(res=>{
 
-     })
+deleteUser(data:User){
+  this._htpServise.deleteUser(data.id!).subscribe((res)=>{
+    console.log(res)
+    if(res.success){
+      this.usersDataSource.data = this.usersDataSource.data.filter(user => user.id !== data.id);
+      this.paginator.length = this.usersDataSource.data.length;
+      this.paginator._changePageSize(this.paginator.pageSize);
+    }
+    this.ngOnInit();
+
+  })
 }
-
 }

@@ -29,7 +29,7 @@
 
   <mat-form-field>
     <mat-label>Filter</mat-label>
-    <input  [formControl]="searchControl" matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    <input  [formControl]="searchControl" type="text" matInput (keyup)="applyFilter($event)"  #input>
   </mat-form-field>
 
   <div class="mat-elevation-z8">
@@ -76,17 +76,12 @@
 
       <ng-container matColumnDef="Delete">
         <th mat-header-cell *matHeaderCellDef >   </th>
-        <td mat-cell *matCellDef="let row"><mat-icon style="-webkit-text-fill-color:red">delete</mat-icon> </td>
+        <td mat-cell *matCellDef="let row"><mat-icon (click)="deleteUser(row)" style="-webkit-text-fill-color:red">delete</mat-icon> </td>
 
 
       </ng-container>
 
-      <ng-container matColumnDef="Edit">
-        <th mat-header-cell *matHeaderCellDef >   </th>
-        <td mat-cell *matCellDef="let row"> <mat-icon style="-webkit-text-fill-color:orange">edit</mat-icon>  </td>
 
-
-      </ng-container>
       <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
       <tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
 

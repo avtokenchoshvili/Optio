@@ -69,5 +69,7 @@ public get getUsers(): Observable<User> {
   public findUser(value: GetUser): Observable<{ data: { entities: User[],  total: number } }>{
     return this._http.post<{data: {entities: User[], total: number}}>("https://development.api.optio.ai/api/v2/admin/users/find", value);
   }
-
+  public deleteUser(id: string): Observable<{success: boolean}>{
+    return this._http.post<{success : boolean}>("https://development.api.optio.ai/api/v2/admin/users/remove", {id});
+  }
 }
