@@ -1,13 +1,15 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild} from "@angular/core";
 import {User} from "../../interfaces/user";
 import {MatTableDataSource} from "@angular/material/table";
-import {MatSort} from "@angular/material/sort";
+import {MatSort,Sort} from "@angular/material/sort";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {HttpService} from "../../services/http.service";
 import {GetUser} from "../../interfaces/getUser";
 import {FormControl} from "@angular/forms";
 import {debounceTime} from "rxjs";
 import { MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmationDialogComponent} from "../../confirmation-dialog/confirmation-dialog.component";
 
 
 @Component({
@@ -28,8 +30,9 @@ export class UsersTableComponent implements AfterViewInit {
 
   public excludes :string[]  = [];
 constructor(public _htpServise:HttpService,
-            private _snackBar: MatSnackBar) {
-
+            private _matDialog: MatDialog
+          ) {
+  //
   this.searchControl.valueChanges.pipe(debounceTime(500)).subscribe((text: string) => {
     this._htpServise.findUser({search: this.searchControl.value, sortBy: this.sortBy,
       sortDirection: this.sortDirection, pageIndex: this.pageIndex, pageSize: this.pageSize  ,includes:this.includes, excludes:this.excludes}).subscribe({
@@ -39,17 +42,21 @@ constructor(public _htpServise:HttpService,
         this.usersDataSource.paginator = this.paginator;
         this.usersDataSource.sort = this.sort;
       },
-      error: (error:any) => (
-        this.openSnackBar("Could not load user data !", "Okey")
-      )
+
     })
   })
 
 
+
+
+
+
 }
-  public openSnackBar(message: string, Delete: string) {
-    this._snackBar.open(message, Delete);
-  }
+
+
+
+
+
 
   public  columnNames: string[] =
     [ 'email', 'firstName', 'lastName', 'Role' , 'Status'  ,'Delete' ,];
@@ -63,6 +70,7 @@ constructor(public _htpServise:HttpService,
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
 
 
 
@@ -108,15 +116,25 @@ this._htpServise.findUser({search: this.searchControl.value, sortBy: this.sortBy
 }
 
 deleteUser(data:User){
-  this._htpServise.deleteUser(data.id!).subscribe((res)=>{
-    console.log(res)
-    if(res.success){
-      this.usersDataSource.data = this.usersDataSource.data.filter(user => user.id !== data.id);
-      this.paginator.length = this.usersDataSource.data.length;
-      this.paginator._changePageSize(this.paginator.pageSize);
-    }
-    this.ngOnInit();
+  const dialog  = this._matDialog.open(ConfirmationDialogComponent,{
+    width: '440px',
 
   })
+
+  dialog.afterClosed().subscribe(res =>{
+    if(res){
+      this._htpServise.deleteUser(data.id!).subscribe((res)=>{
+        console.log(res)
+        if(res.success){
+          this.usersDataSource.data = this.usersDataSource.data.filter(user => user.id !== data.id);
+          this.paginator.length = this.usersDataSource.data.length;
+          this.paginator._changePageSize(this.paginator.pageSize);
+        }
+        this.ngOnInit();
+
+      })
+    }
+  })
+
 }
 }

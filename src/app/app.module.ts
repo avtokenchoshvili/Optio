@@ -11,12 +11,14 @@ import { MaterialModuleModule } from './material-module/material-module.module';
 import { AddUserFromComponent } from './components/addUserForm/addUserFrom.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {UsersTableComponent} from "./components/usersTable/usersTable.component";
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddUserFromComponent,
-    UsersTableComponent
+    UsersTableComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     HttpClientModule,

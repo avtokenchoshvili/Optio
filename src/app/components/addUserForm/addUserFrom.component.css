@@ -2,3 +2,17 @@
 mat-label{
   color: black;
 }
+.submitBTn{
+float: right;
+  margin-top:50px
+}
+
+.submitBTn button {
+  border: 1px solid black;
+  width: 80px;
+  height: 35px;
+
+  background-color: white;
+  border-radius: 20px;
+
+}
